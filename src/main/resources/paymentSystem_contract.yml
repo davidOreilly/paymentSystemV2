@@ -1,0 +1,136 @@
+swagger: "2.0"
+info:
+  title: "Payment System"
+  version: "1.0"
+basePath: /paymentSystem/v1.0
+paths:
+  /submitPayment:
+    post:
+      description: "Submit a payment"
+      operationId: "submitPayment"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: request
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/PaymentRequest'
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            $ref: '#/definitions/PaymentResponse'
+        400:
+          description: "Bad Request: request input missing, wrong data type"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+definitions:
+  PaymentRequest:
+    type: object
+    properties:
+      card:
+        $ref: '#/definitions/Card'
+      customer:
+        $ref: '#/definitions/Customer'
+      purchase:
+        $ref: '#/definitions/Purchase'
+  PaymentResponse:
+    type: object
+    properties:
+      transactionId:
+        description: "The unique identifier for this transaction"
+        type: string
+  Card:
+      type: object
+      required: [cardNumber, expiryMonth, expiryYear]
+      properties:
+        cardNumber:
+          description: "Credit/debit card number"
+          type: string
+        expiryMonth:
+          description: "Month of credit/debit card expiry"
+          type: integer
+        expiryYear:
+          description: "Year of credit/debit card expiry"
+          type: integer
+  Customer:
+    type: object
+    properties:
+      billingAddress:
+        $ref: '#/definitions/Address'
+      shippingAddress:
+        $ref: '#/definitions/Address'
+      emailAddress:
+        description: "Customer's email address"
+        type: string
+  Purchase:
+      type: object
+      required: [currencyCode, id, amount]
+      properties:
+        currencyCode:
+          description: "3 digit ISO currency code"
+          type: integer
+        id:
+          description: "Purchase identifier/number"
+          type: string
+        amount:
+          description: "Total purchase amount (in minor units)"
+          type: integer
+          format: int64
+  Address:
+    type: object
+    properties:
+      line1:
+        description: "Address line 1"
+        type: string
+      line2:
+        description: "Address line 2"
+        type: string
+      city:
+        description: "Address city"
+        type: string
+      countryCode:
+        description: "2 digit ISO country code"
+        type: string
+      firstName:
+        description: "Address first name"
+        type: string
+      lastName:
+        description: "Address last name"
+        type: string
+      phone:
+        description: "Address telephone number"
+        type: string
+      postCode:
+        description: "Address post code"
+        type: string
+      state:
+        description: "Address state/county"
+        type: string
+  PaymentResponse:
+    type: object
+    required: [errorCode, errorMessage]
+    properties:
+      errorCode:
+        type: string
+      errorMessage:
+        type: string
+  ErrorResponse:
+      type: object
+      required: [errorCode, errorMessage]
+      properties:
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
