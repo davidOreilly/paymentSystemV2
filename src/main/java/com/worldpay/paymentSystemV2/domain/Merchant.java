@@ -15,7 +15,6 @@ public class Merchant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "merchant_Code")
     private String merchantCode;
 
     public String getMerchantCode() {

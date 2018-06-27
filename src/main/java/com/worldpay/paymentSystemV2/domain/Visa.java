@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "card")
-public class Visa {
+public class Visa implements Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +28,7 @@ public class Visa {
         this.id = id;
     }
 
-    //    @Override
+    @Override
     public String getCardNumber() {
         return cardNumber;
     }
@@ -37,7 +37,7 @@ public class Visa {
         this.cardNumber = cardNumber;
     }
 
-    //@Override
+    @Override
     public String getExpiryMonth() {
         return expiryMonth;
     }
@@ -46,7 +46,7 @@ public class Visa {
         this.expiryMonth = expiryMonth;
     }
 
-    //@Override
+    @Override
     public String getExpiryYear() {
         return expiryYear;
     }
@@ -63,6 +63,7 @@ public class Visa {
         this.cvv = cvv;
     }
 
+    @Override
     public String getCardholderName() {
         return cardholderName;
     }

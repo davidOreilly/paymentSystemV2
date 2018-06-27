@@ -25,12 +25,12 @@ public class SwaggerConfig {
     }
 
     private Predicate<String> postPaths() {
-        return or(regex("/api/submitPayment.*"), regex("/api/submitPayment.*"));
+        return or(regex("/api/paymentService.*"), regex("/api/paymentService.*"));
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("Payment System")
-                .description("System to receive transaction requests and reply with acquirer response")
+                .description("System to receive and process transaction requests and reply with acquirer response")
                 .termsOfServiceUrl("none")
                 .contact("none.com").license("none")
                 .licenseUrl("none.com").version("1.0").build();

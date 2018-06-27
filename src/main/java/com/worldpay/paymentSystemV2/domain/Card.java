@@ -7,4 +7,6 @@ public interface Card {
     public String getExpiryMonth();
 
     public String getExpiryYear();
+
+    public String getCardholderName();
 }
