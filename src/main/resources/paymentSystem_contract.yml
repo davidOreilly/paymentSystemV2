@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   title: "Payment System"
-  version: "1.0"
+  version: "2.0"
 basePath: /paymentSystem/v1.0
 paths:
   /submitPayment:
@@ -39,21 +39,30 @@ definitions:
   PaymentRequest:
     type: object
     properties:
-      card:
-        $ref: '#/definitions/Card'
-      customer:
-        $ref: '#/definitions/Customer'
-      purchase:
-        $ref: '#/definitions/Purchase'
+      transactionCode:
+        description: 'A unique code for a transaction'
+        type: string
+      amount:
+        description: "Purchase amount for transaction"
+        type: integer
+      currencyCode:
+        description: '3 digit ISO currency code'
+        type: string
+      cardDetails:
+        $ref: '#/definitions/CardDetails'
+      merchantDetails:
+        $ref: '#/definitions/MerchantDetails'
+      shopperDetails:
+        $ref: '#/definitions/ShopperDetails'
   PaymentResponse:
     type: object
     properties:
       transactionId:
         description: "The unique identifier for this transaction"
         type: string
-  Card:
+  CardDetails:
       type: object
-      required: [cardNumber, expiryMonth, expiryYear]
+      required: [cardNumber, expiryMonth, expiryYear, cardholderName]
       properties:
         cardNumber:
           description: "Credit/debit card number"
@@ -64,30 +73,35 @@ definitions:
         expiryYear:
           description: "Year of credit/debit card expiry"
           type: integer
-  Customer:
-    type: object
-    properties:
-      billingAddress:
-        $ref: '#/definitions/Address'
-      shippingAddress:
-        $ref: '#/definitions/Address'
-      emailAddress:
-        description: "Customer's email address"
-        type: string
-  Purchase:
-      type: object
-      required: [currencyCode, id, amount]
-      properties:
-        currencyCode:
-          description: "3 digit ISO currency code"
+        cvv:
+          description: 'CVV on credit/debit card'
           type: integer
-        id:
-          description: "Purchase identifier/number"
+        cardholderName:
+          description: 'Name printed on credit/debit card'
           type: string
-        amount:
-          description: "Total purchase amount (in minor units)"
-          type: integer
-          format: int64
+  MerchantDetails:
+      type: object
+      required: [merchantCode]
+      properties:
+        merchantCode:
+          description: "Unique merchant code"
+          type: string
+  ShopperDetails:
+      type: object
+      required: [firstName, lastName, billingAddress, email]
+      properties:
+        firstName:
+          description: 'Shopper first name'
+          type: string
+        lastName:
+          description: 'Shopper last name'
+          type: string
+        billingAddress:
+          description: 'Shopper billing address'
+          $ref: '#/definitions/Address'
+        email:
+          description: 'Shopper email address'
+          type: string
   Address:
     type: object
     properties:
