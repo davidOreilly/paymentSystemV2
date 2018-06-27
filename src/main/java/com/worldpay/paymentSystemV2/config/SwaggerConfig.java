@@ -29,10 +29,10 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("nbnb")
-                .description("vbnvbns")
-                .termsOfServiceUrl("htvbnvbnom")
-                .contact("javainbnvbn.com").license("Javvnvbse")
-                .licenseUrl("javvnvb.com").version("1.0").build();
+        return new ApiInfoBuilder().title("Payment System")
+                .description("System to receive transaction requests and reply with acquirer response")
+                .termsOfServiceUrl("none")
+                .contact("none.com").license("none")
+                .licenseUrl("none.com").version("1.0").build();
     }
 }

@@ -1,36 +1,29 @@
 package com.worldpay.paymentSystemV2.service;
 
-import com.worldpay.paymentSystemV2.acquirer.MyDemoAcquirerRequest;
-import com.worldpay.paymentSystemV2.model.Card;
-import com.worldpay.paymentSystemV2.model.Customer;
 import com.worldpay.paymentSystemV2.model.PaymentRequest;
-import com.worldpay.paymentSystemV2.model.Purchase;
-import demoPaymentService.acquirer.DemoAcquirer;
-import demoPaymentService.acquirer.DemoAcquirerImpl;
-import demoPaymentService.acquirer.DemoAcquirerResponse;
-import org.springframework.stereotype.Component;
 
-import java.time.YearMonth;
-
-@Component
+/**
+ * A service class to take a payment request and process it
+ *
+ * Note: Currently only handling one type of request but will need to think about potentially handling more
+ */
 public class PaymentService {
 
+//    @Autowired
+//    private PaymentDao paymentDao;
+
+    /**
+     * Persist request data to DB, send request to acquirer and respond with acquirer response
+     * @param PaymentRequest the payment request
+     */
     public int processPayment(PaymentRequest paymentRequest) {
-        MyDemoAcquirerRequest acquirerRequest = new MyDemoAcquirerRequest();
+        //com.worldpay.paymentSystemV2.model.Payment modelPayment = new com.worldpay.paymentSystemV2.model.Payment();
 
-        Purchase purchase = paymentRequest.getPurchase();
-        Customer customer = paymentRequest.getCustomer();
-        Card card = paymentRequest.getCard();
-        YearMonth expiryDate = YearMonth.of(card.getExpiryYear(), card.getExpiryMonth());
+        //Payment domainPayment = new Payment();
 
-        acquirerRequest.setAmount(purchase.getAmount());
-        acquirerRequest.setCardholderName(customer.getBillingAddress().getFirstName());
-        acquirerRequest.setCardNumber(card.getCardNumber());
+        //First we want to persist the data received in the request
+//        paymentDao.create(domainPayment);
 
-        DemoAcquirer demoAcquirer = new DemoAcquirerImpl();
-
-        DemoAcquirerResponse response = demoAcquirer.send(acquirerRequest);
-
-        return response.getResponseCode();
+        return 0;
     }
 }
