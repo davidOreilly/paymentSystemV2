@@ -1,14 +1,8 @@
 package com.worldpay.paymentSystemV2.controllers;
 
 import com.worldpay.paymentSystemV2.dao.PaymentDao;
-import com.worldpay.paymentSystemV2.domain.Merchant;
 import com.worldpay.paymentSystemV2.domain.Payment;
-import com.worldpay.paymentSystemV2.domain.Shopper;
-import com.worldpay.paymentSystemV2.domain.Visa;
-import com.worldpay.paymentSystemV2.model.CardDetails;
-import com.worldpay.paymentSystemV2.model.MerchantDetails;
 import com.worldpay.paymentSystemV2.model.PaymentServiceRequest;
-import com.worldpay.paymentSystemV2.model.ShopperDetails;
 import com.worldpay.paymentSystemV2.service.RequestFactory;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +37,7 @@ public class RequestController {
         if (paymentServiceRequest != null) {
             if (PAYMENT_REQUEST.equals(paymentServiceRequest.getOperation())) {
                 Payment payment = requestFactory.createPaymentRequest(paymentServiceRequest);
+                paymentDao.createPayment(payment);
             } else if (REFUND_REQUEST.equals(paymentServiceRequest.getOperation())) {
                 requestFactory.createRefundRequest();
             } else {
@@ -50,8 +45,6 @@ public class RequestController {
                 return null;
             }
         }
-
-        //paymentDao.create(payment, visaCard, merchant, shopper);
 
         return null;
     }

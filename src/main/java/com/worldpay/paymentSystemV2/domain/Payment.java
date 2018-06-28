@@ -1,12 +1,9 @@
 package com.worldpay.paymentSystemV2.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -27,10 +24,13 @@ public class Payment {
     @Transient
     private Merchant merchant;
 
-    public Payment(String transactionCode, int amount, String currencyCode) {
+    public Payment(String transactionCode, int amount, String currencyCode, Card card, Merchant merchant, Shopper shopper) {
         this.transactionCode = transactionCode;
         this.amount = amount;
         this.currencyCode = currencyCode;
+        this.card = card;
+        this.merchant = merchant;
+        this.shopper = shopper;
     }
 
     public int getId() {

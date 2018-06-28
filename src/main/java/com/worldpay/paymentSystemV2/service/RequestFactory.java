@@ -41,7 +41,8 @@ public class RequestFactory {
         shopper.setPostcode(shopperDetails.getBillingAddress().getPostCode());
         shopper.setPhone(shopperDetails.getBillingAddress().getPhone());
 
-        return new Payment(paymentServiceRequest.getTransactionCode(), paymentServiceRequest.getAmount(), paymentServiceRequest.getCurrencyCode());
+        return new Payment(paymentServiceRequest.getTransactionCode(), paymentServiceRequest.getAmount(), paymentServiceRequest.getCurrencyCode(),
+                visaCard, merchant, shopper);
     }
 
     public String createRefundRequest() {
