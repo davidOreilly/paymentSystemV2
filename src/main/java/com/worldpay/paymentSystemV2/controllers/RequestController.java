@@ -5,12 +5,13 @@ import com.worldpay.paymentSystemV2.domain.Payment;
 import com.worldpay.paymentSystemV2.model.PaymentServiceRequest;
 import com.worldpay.paymentSystemV2.service.RequestFactory;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.inject.Inject;
 
 /**
  * Controller is responsible for intercepting request from merchant,
@@ -21,13 +22,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class RequestController {
 
-    public static final String PAYMENT_REQUEST = "PAYMENT";
-    public static final String REFUND_REQUEST = "REFUND";
+    private static final String PAYMENT_REQUEST = "PAYMENT";
+    private static final String REFUND_REQUEST = "REFUND";
 
-    @Autowired
     private PaymentDao paymentDao;
-    @Autowired
     private RequestFactory requestFactory;
+
+    @Inject
+    public RequestController(PaymentDao paymentDao, RequestFactory requestFactory) {
+        this.paymentDao = paymentDao;
+        this.requestFactory = requestFactory;
+    }
 
     @RequestMapping(
             value = "/api/paymentService",

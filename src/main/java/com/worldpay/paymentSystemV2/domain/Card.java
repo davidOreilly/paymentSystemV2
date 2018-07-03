@@ -4,9 +4,9 @@ public interface Card {
 
     public String getCardNumber();
 
-    public String getExpiryMonth();
+    public int getExpiryMonth();
 
-    public String getExpiryYear();
+    public int getExpiryYear();
 
     public String getCardholderName();
 }
