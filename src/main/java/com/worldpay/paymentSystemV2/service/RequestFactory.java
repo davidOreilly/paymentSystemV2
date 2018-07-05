@@ -62,7 +62,7 @@ public class RequestFactory {
         shopper.setAddress2(shopperDetails.getBillingAddress().getLine2());
         shopper.setTown(shopperDetails.getBillingAddress().getCity());
         shopper.setCounty(shopperDetails.getBillingAddress().getState());
-        shopper.setCountryCode(Integer.valueOf(shopperDetails.getBillingAddress().getCountryCode()));
+        shopper.setCountryCode(shopperDetails.getBillingAddress().getCountryCode());
         shopper.setPostcode(shopperDetails.getBillingAddress().getPostCode());
         shopper.setPhone(shopperDetails.getBillingAddress().getPhone());
 

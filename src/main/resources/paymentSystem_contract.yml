@@ -119,7 +119,7 @@ definitions:
         type: string
       countryCode:
         description: "2 digit ISO country code"
-        type: string
+        type: integer
       firstName:
         description: "Address first name"
         type: string

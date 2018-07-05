@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class RequestFactoryTest {
@@ -77,6 +78,7 @@ public class RequestFactoryTest {
         when(address.getState()).thenReturn(COUNTY);
         when(address.getPostCode()).thenReturn(POSTCODE);
         when(address.getPhone()).thenReturn(PHONE_NUMBER);
+        when(address.getCountryCode()).thenReturn(COUNTRY_CODE);
 
         when(shopperDetails.getFirstName()).thenReturn(FIRST_NAME);
         when(shopperDetails.getLastName()).thenReturn(LAST_NAME);
@@ -86,53 +88,76 @@ public class RequestFactoryTest {
     @Test
     public void paymentRequestCreatedWithExpectedValues() throws Exception {
         Payment payment = requestFactory.createPaymentRequest(paymentServiceRequest);
-        Payment expectedPayment = createPayment();
+        Card card = payment.getCard();
+        Merchant merchant = payment.getMerchant();
+        Shopper shopper = payment.getShopper();
 
+        assertEquals(TRANSACTION_CODE, payment.getTransactionCode());
+        assertEquals(AMOUNT, payment.getAmount());
+        assertEquals(CURRENCY_CODE, payment.getCurrencyCode());
 
+        assertEquals(CARD_NUMBER, card.getCardNumber());
+        assertEquals(CARDHOLDER_NAME, card.getCardholderName());
+        assertEquals(EXPIRY_MONTH, card.getExpiryMonth());
+        assertEquals(EXPIRY_YEAR, card.getExpiryYear());
+
+        assertEquals(MERCHANT_CODE, merchant.getMerchantCode());
+
+        assertEquals(FIRST_NAME, shopper.getFirstName());
+        assertEquals(LAST_NAME, shopper.getLastName());
+        assertEquals(ADDRESS_LINE_1, shopper.getAddress1());
+        assertEquals(ADDRESS_LINE_2, shopper.getAddress2());
+        assertEquals(TOWN, shopper.getTown());
+        assertEquals(COUNTY, shopper.getCounty());
+        assertEquals(POSTCODE, shopper.getPostcode());
+        assertEquals(COUNTRY_CODE, shopper.getCountryCode());
+        assertEquals(PHONE_NUMBER, shopper.getPhone());
     }
 
-    private Payment createPayment() {
-        Card card = createCard();
-        Merchant merchant = createMerchant();
-        Shopper shopper = createShopper();
-
-        Payment payment = new Payment(TRANSACTION_CODE, AMOUNT, CURRENCY_CODE, card, merchant, shopper);
-        payment.setId(123);
-
-        return payment;
-    }
-
-    private Card createCard() {
-        Visa card = new Visa();
-
-        card.setCardholderName(CARDHOLDER_NAME);
-        card.setCardNumber(CARD_NUMBER);
-        card.setExpiryMonth(EXPIRY_MONTH);
-        card.setExpiryYear(EXPIRY_YEAR);
-        card.setCvv(CVV);
-
-        return card;
-    }
-
-    private Merchant createMerchant() {
-        Merchant merchant = new Merchant();
-
-        merchant.setMerchantCode(MERCHANT_CODE);
-
-        return merchant;
-    }
-
-    private Shopper createShopper() {
-        Shopper shopper = new Shopper();
-
-        shopper.setFirstName(FIRST_NAME);
-        shopper.setLastName(LAST_NAME);
-        shopper.setAddress1(ADDRESS_LINE_1);
-        shopper.setAddress2(ADDRESS_LINE_2);
-        shopper.setTown(TOWN);
-        shopper.setCounty(COUNTY);
-        shopper.setPostcode(POSTCODE);
-        shopper.setCountryCode(COUNTRY_CODE);
-        shopper.setPhone(PHONE_NUMBER);
-    }
+//    private Payment createPayment() {
+//        Card card = createCard();
+//        Merchant merchant = createMerchant();
+//        Shopper shopper = createShopper();
+//
+//        Payment payment = new Payment(TRANSACTION_CODE, AMOUNT, CURRENCY_CODE, card, merchant, shopper);
+//        payment.setId(123);
+//
+//        return payment;
+//    }
+//
+//    private Card createCard() {
+//        Visa card = new Visa();
+//
+//        card.setCardholderName(CARDHOLDER_NAME);
+//        card.setCardNumber(CARD_NUMBER);
+//        card.setExpiryMonth(EXPIRY_MONTH);
+//        card.setExpiryYear(EXPIRY_YEAR);
+//        card.setCvv(CVV);
+//
+//        return card;
+//    }
+//
+//    private Merchant createMerchant() {
+//        Merchant merchant = new Merchant();
+//
+//        merchant.setMerchantCode(MERCHANT_CODE);
+//
+//        return merchant;
+//    }
+//
+//    private Shopper createShopper() {
+//        Shopper shopper = new Shopper();
+//
+//        shopper.setFirstName(FIRST_NAME);
+//        shopper.setLastName(LAST_NAME);
+//        shopper.setAddress1(ADDRESS_LINE_1);
+//        shopper.setAddress2(ADDRESS_LINE_2);
+//        shopper.setTown(TOWN);
+//        shopper.setCounty(COUNTY);
+//        shopper.setPostcode(POSTCODE);
+//        shopper.setCountryCode(COUNTRY_CODE);
+//        shopper.setPhone(PHONE_NUMBER);
+//
+//        return shopper;
+//    }
 }
