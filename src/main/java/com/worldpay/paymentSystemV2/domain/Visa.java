@@ -1,6 +1,5 @@
 package com.worldpay.paymentSystemV2.domain;
 
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,15 +8,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "card")
-public class Visa {
+public class Visa implements Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String cardNumber;
-    private String expiryMonth;
-    private String expiryYear;
-    private String cvv;
+    private int expiryMonth;
+    private int expiryYear;
+    private int cvv;
     private String cardholderName;
 
     public int getId() {
@@ -28,7 +27,7 @@ public class Visa {
         this.id = id;
     }
 
-    //    @Override
+    @Override
     public String getCardNumber() {
         return cardNumber;
     }
@@ -37,32 +36,33 @@ public class Visa {
         this.cardNumber = cardNumber;
     }
 
-    //@Override
-    public String getExpiryMonth() {
+    @Override
+    public int getExpiryMonth() {
         return expiryMonth;
     }
 
-    public void setExpiryMonth(String expiryMonth) {
+    public void setExpiryMonth(int expiryMonth) {
         this.expiryMonth = expiryMonth;
     }
 
-    //@Override
-    public String getExpiryYear() {
+    @Override
+    public int getExpiryYear() {
         return expiryYear;
     }
 
-    public void setExpiryYear(String expiryYear) {
+    public void setExpiryYear(int expiryYear) {
         this.expiryYear = expiryYear;
     }
 
-    public String getCvv() {
+    public int getCvv() {
         return cvv;
     }
 
-    public void setCvv(String cvv) {
+    public void setCvv(int cvv) {
         this.cvv = cvv;
     }
 
+    @Override
     public String getCardholderName() {
         return cardholderName;
     }

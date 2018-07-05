@@ -15,23 +15,14 @@ public class Shopper {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-//    @Column(name = "first_name")
     private String firstName;
-//    @Column(name = "last_name")
     private String lastName;
-//    @Column(name = "first_name")
     private String address1;
-//    @Column(name = "first_name")
     private String address2;
-//    @Column(name = "first_name")
     private String town;
-//    @Column(name = "first_name")
     private String county;
-//    @Column(name = "first_name")
     private String postcode;
-//    @Column(name = "first_name")
     private String phone;
-//    @Column(name = "first_name")
     private int countryCode;
 
     public int getId() {

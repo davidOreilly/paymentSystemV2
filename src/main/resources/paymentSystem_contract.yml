@@ -4,10 +4,10 @@ info:
   version: "2.0"
 basePath: /paymentSystem/v1.0
 paths:
-  /submitPayment:
+  /paymentService:
     post:
-      description: "Submit a payment"
-      operationId: "submitPayment"
+      description: "Submit a payment or refund request"
+      operationId: "submitPaymentServiceRequest"
       consumes:
         - "application/json"
       produces:
@@ -17,12 +17,12 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/PaymentRequest'
+            $ref: '#/definitions/PaymentServiceRequest'
       responses:
         200:
           description: "Successful response"
           schema:
-            $ref: '#/definitions/PaymentResponse'
+            $ref: '#/definitions/PaymentServiceResponse'
         400:
           description: "Bad Request: request input missing, wrong data type"
           schema:
@@ -36,9 +36,12 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
 definitions:
-  PaymentRequest:
+  PaymentServiceRequest:
     type: object
     properties:
+      operation:
+        description: 'Identifier to show type of request. i.e. payment/refund'
+        type: string
       transactionCode:
         description: 'A unique code for a transaction'
         type: string
@@ -54,7 +57,7 @@ definitions:
         $ref: '#/definitions/MerchantDetails'
       shopperDetails:
         $ref: '#/definitions/ShopperDetails'
-  PaymentResponse:
+  PaymentServiceResponse:
     type: object
     properties:
       transactionId:
@@ -116,7 +119,7 @@ definitions:
         type: string
       countryCode:
         description: "2 digit ISO country code"
-        type: string
+        type: integer
       firstName:
         description: "Address first name"
         type: string
@@ -131,14 +134,6 @@ definitions:
         type: string
       state:
         description: "Address state/county"
-        type: string
-  PaymentResponse:
-    type: object
-    required: [errorCode, errorMessage]
-    properties:
-      errorCode:
-        type: string
-      errorMessage:
         type: string
   ErrorResponse:
       type: object

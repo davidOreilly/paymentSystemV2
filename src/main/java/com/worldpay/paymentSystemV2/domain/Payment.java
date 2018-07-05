@@ -1,13 +1,11 @@
 package com.worldpay.paymentSystemV2.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "payment")
@@ -16,17 +14,23 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "transaction_code")
     private String transactionCode;
-    @Column(name = "amount")
-    private String amount;
-    @Column(name = "currency_code")
+    private int amount;
     private String currencyCode;
+    @Transient
+    private Card card;
+    @Transient
+    private Shopper shopper;
+    @Transient
+    private Merchant merchant;
 
-    public Payment(String transactionCode, String amount, String currencyCode) {
+    public Payment(String transactionCode, int amount, String currencyCode, Card card, Merchant merchant, Shopper shopper) {
         this.transactionCode = transactionCode;
         this.amount = amount;
         this.currencyCode = currencyCode;
+        this.card = card;
+        this.merchant = merchant;
+        this.shopper = shopper;
     }
 
     public int getId() {
@@ -45,11 +49,11 @@ public class Payment {
         this.transactionCode = transactionCode;
     }
 
-    public String getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
@@ -61,4 +65,27 @@ public class Payment {
         this.currencyCode = currencyCode;
     }
 
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
+
+    public Shopper getShopper() {
+        return shopper;
+    }
+
+    public void setShopper(Shopper shopper) {
+        this.shopper = shopper;
+    }
+
+    public Merchant getMerchant() {
+        return merchant;
+    }
+
+    public void setMerchant(Merchant merchant) {
+        this.merchant = merchant;
+    }
 }
