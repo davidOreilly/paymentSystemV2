@@ -44,11 +44,11 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>demo-payment-service</groupId>
-			<artifactId>demo-acquirer</artifactId>
-			<version>1.1.0</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>demo-payment-service</groupId>-->
+			<!--<artifactId>demo-acquirer</artifactId>-->
+			<!--<version>1.1.0</version>-->
+		<!--</dependency>-->
 
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -83,6 +83,13 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.7</version>
 		</dependency>
+
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

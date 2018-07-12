@@ -17,4 +17,34 @@ public class ShopperValidatorTest {
     public void firstNameIsNotValid() {
         assertFalse(ShopperValidator.isValidFirstName("R0b3rt"));
     }
+
+    @Test
+    public void lastNameIsValid() {
+        assertTrue(ShopperValidator.isValidLastName("Smith"));
+    }
+
+    @Test
+    public void lastNameIsNotValid() {
+        assertFalse(ShopperValidator.isValidLastName("J0ne5"));
+    }
+
+    @Test
+    public void postcodeWithSpaceIsValid() {
+        assertTrue(ShopperValidator.isValidPostcode("CB4 0WE"));
+    }
+
+    @Test
+    public void postcodeWithoutSpaceIsValid() {
+        assertTrue(ShopperValidator.isValidPostcode("CB10WF"));
+    }
+
+    @Test
+    public void postcodeEndingWithNumbersIsInvalid() {
+        assertFalse(ShopperValidator.isValidPostcode("EC1A 123"));
+    }
+
+    @Test
+    public void phoneIsValid() {
+        assertTrue(ShopperValidator.isValidPhone("01755660258"));
+    }
 }
