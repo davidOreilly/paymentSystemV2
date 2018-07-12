@@ -3,8 +3,8 @@ package com.worldpay.paymentSystemV2.service;
 import com.worldpay.paymentSystemV2.domain.Card;
 import com.worldpay.paymentSystemV2.domain.Merchant;
 import com.worldpay.paymentSystemV2.domain.Payment;
+import com.worldpay.paymentSystemV2.domain.RequestFactory;
 import com.worldpay.paymentSystemV2.domain.Shopper;
-import com.worldpay.paymentSystemV2.domain.Visa;
 import com.worldpay.paymentSystemV2.model.Address;
 import com.worldpay.paymentSystemV2.model.CardDetails;
 import com.worldpay.paymentSystemV2.model.MerchantDetails;
@@ -51,7 +51,7 @@ public class RequestFactoryTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        this.requestFactory = new RequestFactory();
+        requestFactory = new RequestFactory();
 
         when(paymentServiceRequest.getOperation()).thenReturn("PAYMENT");
         when(paymentServiceRequest.getAmount()).thenReturn(AMOUNT);
@@ -86,22 +86,37 @@ public class RequestFactoryTest {
     }
 
     @Test
-    public void paymentRequestCreatedWithExpectedValues() throws Exception {
-        Payment payment = requestFactory.createPaymentRequest(paymentServiceRequest);
-        Card card = payment.getCard();
-        Merchant merchant = payment.getMerchant();
-        Shopper shopper = payment.getShopper();
+    public void paymentRequestCreatedWithExpectedPaymentValues() throws Exception {
+        Payment payment = requestFactory.createPayment(paymentServiceRequest);
 
         assertEquals(TRANSACTION_CODE, payment.getTransactionCode());
         assertEquals(AMOUNT, payment.getAmount());
         assertEquals(CURRENCY_CODE, payment.getCurrencyCode());
+    }
+
+    @Test
+    public void paymentRequestCreatedWithExpectedCardValues() throws Exception {
+        Payment payment = requestFactory.createPayment(paymentServiceRequest);
+        Card card = payment.getCard();
 
         assertEquals(CARD_NUMBER, card.getCardNumber());
         assertEquals(CARDHOLDER_NAME, card.getCardholderName());
         assertEquals(EXPIRY_MONTH, card.getExpiryMonth());
         assertEquals(EXPIRY_YEAR, card.getExpiryYear());
+    }
+
+    @Test
+    public void paymentRequestCreatedWithExpectedMerchantValues() throws Exception {
+        Payment payment = requestFactory.createPayment(paymentServiceRequest);
+        Merchant merchant = payment.getMerchant();
 
         assertEquals(MERCHANT_CODE, merchant.getMerchantCode());
+    }
+
+    @Test
+    public void paymentRequestCreatedWithExpectedShopperValues() throws Exception {
+        Payment payment = requestFactory.createPayment(paymentServiceRequest);
+        Shopper shopper = payment.getShopper();
 
         assertEquals(FIRST_NAME, shopper.getFirstName());
         assertEquals(LAST_NAME, shopper.getLastName());
@@ -114,50 +129,4 @@ public class RequestFactoryTest {
         assertEquals(PHONE_NUMBER, shopper.getPhone());
     }
 
-//    private Payment createPayment() {
-//        Card card = createCard();
-//        Merchant merchant = createMerchant();
-//        Shopper shopper = createShopper();
-//
-//        Payment payment = new Payment(TRANSACTION_CODE, AMOUNT, CURRENCY_CODE, card, merchant, shopper);
-//        payment.setId(123);
-//
-//        return payment;
-//    }
-//
-//    private Card createCard() {
-//        Visa card = new Visa();
-//
-//        card.setCardholderName(CARDHOLDER_NAME);
-//        card.setCardNumber(CARD_NUMBER);
-//        card.setExpiryMonth(EXPIRY_MONTH);
-//        card.setExpiryYear(EXPIRY_YEAR);
-//        card.setCvv(CVV);
-//
-//        return card;
-//    }
-//
-//    private Merchant createMerchant() {
-//        Merchant merchant = new Merchant();
-//
-//        merchant.setMerchantCode(MERCHANT_CODE);
-//
-//        return merchant;
-//    }
-//
-//    private Shopper createShopper() {
-//        Shopper shopper = new Shopper();
-//
-//        shopper.setFirstName(FIRST_NAME);
-//        shopper.setLastName(LAST_NAME);
-//        shopper.setAddress1(ADDRESS_LINE_1);
-//        shopper.setAddress2(ADDRESS_LINE_2);
-//        shopper.setTown(TOWN);
-//        shopper.setCounty(COUNTY);
-//        shopper.setPostcode(POSTCODE);
-//        shopper.setCountryCode(COUNTRY_CODE);
-//        shopper.setPhone(PHONE_NUMBER);
-//
-//        return shopper;
-//    }
 }

@@ -1,10 +1,5 @@
-package com.worldpay.paymentSystemV2.service;
+package com.worldpay.paymentSystemV2.domain;
 
-import com.worldpay.paymentSystemV2.domain.Card;
-import com.worldpay.paymentSystemV2.domain.Merchant;
-import com.worldpay.paymentSystemV2.domain.Payment;
-import com.worldpay.paymentSystemV2.domain.Shopper;
-import com.worldpay.paymentSystemV2.domain.Visa;
 import com.worldpay.paymentSystemV2.model.CardDetails;
 import com.worldpay.paymentSystemV2.model.MerchantDetails;
 import com.worldpay.paymentSystemV2.model.PaymentServiceRequest;
@@ -14,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RequestFactory {
 
-    public Payment createPaymentRequest(PaymentServiceRequest paymentServiceRequest) {
+    public Payment createPayment(PaymentServiceRequest paymentServiceRequest) {
         //todo we will want to validate this data somewhere before we start creating domain objects from it
         //todo we also want to notify merchant if anything is wrong with the data
         CardDetails cardDetails = paymentServiceRequest.getCardDetails();
@@ -29,7 +24,7 @@ public class RequestFactory {
                 paymentServiceRequest.getCurrencyCode(), visaCard, merchant, shopper);
     }
 
-    public String createRefundRequest() {
+    public String createRefund() {
         return null;
     }
 
