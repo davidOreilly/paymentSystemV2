@@ -23,7 +23,7 @@ public class Shopper {
     private String county;
     private String postcode;
     private String phone;
-    private int countryCode;
+    private String countryCode;
 
     public int getId() {
         return id;
@@ -97,11 +97,11 @@ public class Shopper {
         this.phone = phone;
     }
 
-    public int getCountryCode() {
+    public String getCountryCode() {
         return countryCode;
     }
 
-    public void setCountryCode(int countryCode) {
+    public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
 

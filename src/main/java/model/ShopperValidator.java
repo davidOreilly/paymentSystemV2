@@ -2,8 +2,10 @@ package model;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.RegexValidator;
-import org.omg.CORBA.PolicyHolder;
 
+/**
+ * Utility class containing static methods to validate various elements of a Shopper object
+ */
 public class ShopperValidator {
 
     private static final String postcodeRegex = "^(([gG][iI][rR] {0,}0[aA]{2})|(([aA][sS][cC][nN]|[sS][tT][hH][lL]|[tT]" +
@@ -30,7 +32,7 @@ public class ShopperValidator {
     /**
      * Check if supplied lastName is valid
      * @param lastName
-     * @return true
+     * @return true if valid. Otherwise false
      */
     public static boolean isValidLastName(String lastName) {
         if (StringUtils.isAlpha(lastName)) {
@@ -40,20 +42,44 @@ public class ShopperValidator {
         return false;
     }
 
+    /**
+     * Check if supplied postcode is valid
+     * @param postcode
+     * @return true if valid. Otherwise false
+     */
     public static boolean isValidPostcode(String postcode) {
         RegexValidator regexValidator = new RegexValidator(postcodeRegex);
+
         return regexValidator.isValid(postcode);
     }
 
+    /**
+     * Check if supplied phone number is valid
+     * @param phone
+     * @return true if valid. Otherwise false
+     */
     public static boolean isValidPhone(String phone) {
-        if (!StringUtils.isAlpha(phone)) {
+        char[] phoneChars = phone.toCharArray();
+        for (char phoneChar : phoneChars) {
+            if (!Character.isDigit(phoneChar)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Check if supplied countryCode is a valid 2 digit ISO 3166-1 country code
+     * @param countryCode
+     * @return true if valid. Otherwise false
+     */
+    public static boolean isValidCountryCode(String countryCode) {
+        if (countryCode.length() == 2 && StringUtils.isAlpha(countryCode)) {
             return true;
         }
 
         return false;
     }
-//
-//    public static boolean isValidCountryCode(int countryCode) {
-//
-//    }
+
 }

@@ -27,7 +27,7 @@ public class RequestFactoryTest {
     private static final String FIRST_NAME = "Jim";
     private static final String LAST_NAME = "Smith";
     private static final String CARDHOLDER_NAME = FIRST_NAME + " " + LAST_NAME;
-    private static final int COUNTRY_CODE = 840;
+    private static final String COUNTRY_CODE = "GB";
     private static final int CVV = 896;
     private static final int EXPIRY_MONTH = 10;
     private static final int EXPIRY_YEAR = 2020;

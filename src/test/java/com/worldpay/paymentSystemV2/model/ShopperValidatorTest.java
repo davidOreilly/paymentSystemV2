@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class ShopperValidatorTest {
 
     @Test
-    public void firstNameIsValid() {
+    public void firstNameContainingOnlyLettersIsValid() {
         assertTrue(ShopperValidator.isValidFirstName("Jim"));
     }
 
@@ -19,7 +19,7 @@ public class ShopperValidatorTest {
     }
 
     @Test
-    public void lastNameIsValid() {
+    public void lastNameContainingOnlyLettersIsValid() {
         assertTrue(ShopperValidator.isValidLastName("Smith"));
     }
 
@@ -44,7 +44,33 @@ public class ShopperValidatorTest {
     }
 
     @Test
-    public void phoneIsValid() {
+    public void phoneContainingOnlyNumbersIsValid() {
         assertTrue(ShopperValidator.isValidPhone("01755660258"));
     }
+
+    @Test
+    public void phoneNumberWithLettersIsInvalid() {
+        assertFalse(ShopperValidator.isValidPhone("0177Five660257"));
+    }
+
+    @Test
+    public void twoLetterCountryCodeContainingOnlyLettersIsValid() {
+        assertTrue(ShopperValidator.isValidCountryCode("GB"));
+    }
+
+    @Test
+    public void countryCodeContainingNumbersIsInvalid() {
+        assertFalse(ShopperValidator.isValidCountryCode("G1"));
+    }
+
+    @Test
+    public void countryCodeWithLengthLessThanTwoIsInvalid() {
+        assertFalse(ShopperValidator.isValidCountryCode("P"));
+    }
+
+    @Test
+    public void countryCodeWithLengthLongerThanTwoIsInvalid() {
+        assertFalse(ShopperValidator.isValidCountryCode("USA"));
+    }
+
 }
