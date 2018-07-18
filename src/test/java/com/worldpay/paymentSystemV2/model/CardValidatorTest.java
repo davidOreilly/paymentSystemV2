@@ -43,4 +43,25 @@ public class CardValidatorTest {
 
         assertFalse(CardValidator.isValidExpiryDate(expiryMonth, expiryYear));
     }
+
+    @Test
+    public void cvvOfThreeDigitsIsValid() throws Exception {
+        assertTrue(CardValidator.isValidCvv("123"));
+    }
+
+    @Test
+    public void cvvOfLessThanThreeDigitsIsInvalid() throws Exception {
+        assertFalse(CardValidator.isValidCvv("79"));
+    }
+
+    @Test
+    public void cvvOfMoreThanThreeDigitsIsInvalid() throws Exception {
+        assertFalse(CardValidator.isValidCvv("24680"));
+    }
+
+    @Test
+    public void cvvContainingLettersIsInvalid() throws Exception {
+        assertFalse(CardValidator.isValidCvv("A4C"));
+    }
+
 }

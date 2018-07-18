@@ -1,7 +1,6 @@
 package model;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 
 /**
@@ -45,4 +44,25 @@ public class CardValidator {
 
         return true;
     }
+
+    /**
+     * Check if supplied card cvv is valid
+     * @param cvv
+     * @return true if valid. Otherwise false
+     */
+    public static boolean isValidCvv(String cvv) {
+        char[] cvvChars = cvv.toCharArray();
+        for (char cvvChar : cvvChars) {
+            if (!Character.isDigit(cvvChar)) {
+                return false;
+            }
+        }
+
+        if (cvv.length() != 3) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

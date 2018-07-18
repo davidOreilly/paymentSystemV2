@@ -4,8 +4,12 @@ import com.worldpay.paymentSystemV2.model.CardDetails;
 import com.worldpay.paymentSystemV2.model.MerchantDetails;
 import com.worldpay.paymentSystemV2.model.PaymentServiceRequest;
 import com.worldpay.paymentSystemV2.model.ShopperDetails;
+import model.CardValidator;
 import org.springframework.stereotype.Component;
 
+/**
+ * Class to create Payment and Refund requests using data submitted by Merchant
+ */
 @Component
 public class RequestFactory {
 
@@ -15,6 +19,8 @@ public class RequestFactory {
         CardDetails cardDetails = paymentServiceRequest.getCardDetails();
         MerchantDetails merchantDetails = paymentServiceRequest.getMerchantDetails();
         ShopperDetails shopperDetails = paymentServiceRequest.getShopperDetails();
+
+
 
         Card visaCard = createCard(cardDetails);
         Merchant merchant = createMerchant(merchantDetails);
@@ -62,6 +68,25 @@ public class RequestFactory {
         shopper.setPhone(shopperDetails.getBillingAddress().getPhone());
 
         return shopper;
+    }
+
+    private boolean areCardDetailsValid(Card cardDetails) {
+        String cardNumber = cardDetails.getCardNumber();
+        int expiryMonth = cardDetails.getExpiryMonth();
+        int expiryYear = cardDetails.getExpiryYear();
+        String cardBrand = cardDetails.getBrand();
+
+        if ("VISA".equals(cardBrand)) {
+            if (CardValidator.isValidCvv())
+        }
+
+        if (CardValidator.isValidCardNumber(cardNumber) &&
+            CardValidator.isValidExpiryDate(expiryMonth, expiryYear) &&
+            CardValidator.isValidCvv(cardDetails.getBrand())) {
+                return true;
+        }
+
+        return false;
     }
 
 }

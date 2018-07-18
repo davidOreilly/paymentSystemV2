@@ -10,13 +10,15 @@ import javax.persistence.Table;
 @Table(name = "card")
 public class Visa implements Card {
 
+    private static final String BRAND = "VISA";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String cardNumber;
     private int expiryMonth;
     private int expiryYear;
-    private int cvv;
+    private String cvv;
     private String cardholderName;
 
     public int getId() {
@@ -27,7 +29,6 @@ public class Visa implements Card {
         this.id = id;
     }
 
-    @Override
     public String getCardNumber() {
         return cardNumber;
     }
@@ -36,7 +37,6 @@ public class Visa implements Card {
         this.cardNumber = cardNumber;
     }
 
-    @Override
     public int getExpiryMonth() {
         return expiryMonth;
     }
@@ -45,7 +45,6 @@ public class Visa implements Card {
         this.expiryMonth = expiryMonth;
     }
 
-    @Override
     public int getExpiryYear() {
         return expiryYear;
     }
@@ -54,15 +53,14 @@ public class Visa implements Card {
         this.expiryYear = expiryYear;
     }
 
-    public int getCvv() {
+    public String getCvv() {
         return cvv;
     }
 
-    public void setCvv(int cvv) {
+    public void setCvv(String cvv) {
         this.cvv = cvv;
     }
 
-    @Override
     public String getCardholderName() {
         return cardholderName;
     }
@@ -70,4 +68,9 @@ public class Visa implements Card {
     public void setCardholderName(String cardholderName) {
         this.cardholderName = cardholderName;
     }
+
+    public String getBrand() {
+        return BRAND;
+    }
+
 }

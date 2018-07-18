@@ -78,7 +78,7 @@ definitions:
           type: integer
         cvv:
           description: 'CVV on credit/debit card'
-          type: integer
+          type: string
         cardholderName:
           description: 'Name printed on credit/debit card'
           type: string
