@@ -122,9 +122,9 @@ public class RequestFactoryTest {
         assertEquals(LAST_NAME, shopper.getLastName());
         assertEquals(ADDRESS_LINE_1, shopper.getAddress1());
         assertEquals(ADDRESS_LINE_2, shopper.getAddress2());
-        assertEquals(TOWN, shopper.getTown());
-        assertEquals(COUNTY, shopper.getCounty());
-        assertEquals(POSTCODE, shopper.getPostcode());
+        assertEquals(TOWN, shopper.getCity());
+        assertEquals(COUNTY, shopper.getState());
+        assertEquals(POSTCODE, shopper.getPostCode());
         assertEquals(COUNTRY_CODE, shopper.getCountryCode());
         assertEquals(PHONE_NUMBER, shopper.getPhone());
     }

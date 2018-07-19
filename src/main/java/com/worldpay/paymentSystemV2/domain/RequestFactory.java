@@ -1,11 +1,11 @@
 package com.worldpay.paymentSystemV2.domain;
 
-import com.worldpay.paymentSystemV2.model.CardDetails;
-import com.worldpay.paymentSystemV2.model.MerchantDetails;
-import com.worldpay.paymentSystemV2.model.PaymentServiceRequest;
-import com.worldpay.paymentSystemV2.model.ShopperDetails;
+import com.worldpay.paymentSystemV2.model.*;
 import model.CardValidator;
+import model.ShopperValidator;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * Class to create Payment and Refund requests using data submitted by Merchant
@@ -14,20 +14,17 @@ import org.springframework.stereotype.Component;
 public class RequestFactory {
 
     public Payment createPayment(PaymentServiceRequest paymentServiceRequest) {
-        //todo we will want to validate this data somewhere before we start creating domain objects from it
-        //todo we also want to notify merchant if anything is wrong with the data
+        //todo we want to notify merchant if anything is wrong with the data
         CardDetails cardDetails = paymentServiceRequest.getCardDetails();
         MerchantDetails merchantDetails = paymentServiceRequest.getMerchantDetails();
         ShopperDetails shopperDetails = paymentServiceRequest.getShopperDetails();
 
-
-
-        Card visaCard = createCard(cardDetails);
+        Card card = createCard(cardDetails);
         Merchant merchant = createMerchant(merchantDetails);
         Shopper shopper = createShopper(shopperDetails);
 
         return new Payment(paymentServiceRequest.getTransactionCode(), paymentServiceRequest.getAmount(),
-                paymentServiceRequest.getCurrencyCode(), visaCard, merchant, shopper);
+                paymentServiceRequest.getCurrencyCode(), card, merchant, shopper);
     }
 
     public String createRefund() {
@@ -35,15 +32,25 @@ public class RequestFactory {
     }
 
     private Card createCard(CardDetails cardDetails) {
-        Visa visaCard = new Visa();
+        String cardNumber = cardDetails.getCardNumber();
+        int expiryMonth = cardDetails.getExpiryMonth();
+        int expiryYear = cardDetails.getExpiryYear();
+        String cvv = cardDetails.getCvv();
+        String cardholderName = cardDetails.getCardholderName();
 
-        visaCard.setCardNumber(cardDetails.getCardNumber());
-        visaCard.setExpiryMonth(cardDetails.getExpiryMonth());
-        visaCard.setExpiryYear(cardDetails.getExpiryYear());
-        visaCard.setCvv(cardDetails.getCvv());
-        visaCard.setCardholderName(cardDetails.getCardholderName());
+        if (isCardDetailsValid(cardNumber, expiryMonth, expiryYear)) {
+            Visa visaCard = new Visa();
 
-        return visaCard;
+            visaCard.setCardNumber(cardNumber);
+            visaCard.setExpiryMonth(expiryMonth);
+            visaCard.setExpiryYear(expiryYear);
+            visaCard.setCvv(cvv);
+            visaCard.setCardholderName(cardholderName);
+
+            return visaCard;
+        }
+
+        return null;
     }
 
     private Merchant createMerchant(MerchantDetails merchantDetails) {
@@ -55,35 +62,55 @@ public class RequestFactory {
     }
 
     private Shopper createShopper(ShopperDetails shopperDetails) {
-        Shopper shopper = new Shopper();
+        String firstName = shopperDetails.getFirstName();
+        String lastName = shopperDetails.getLastName();
+        String email = shopperDetails.getEmail();
 
-        shopper.setFirstName(shopperDetails.getFirstName());
-        shopper.setLastName(shopperDetails.getLastName());
-        shopper.setAddress1(shopperDetails.getBillingAddress().getLine1());
-        shopper.setAddress2(shopperDetails.getBillingAddress().getLine2());
-        shopper.setTown(shopperDetails.getBillingAddress().getCity());
-        shopper.setCounty(shopperDetails.getBillingAddress().getState());
-        shopper.setCountryCode(shopperDetails.getBillingAddress().getCountryCode());
-        shopper.setPostcode(shopperDetails.getBillingAddress().getPostCode());
-        shopper.setPhone(shopperDetails.getBillingAddress().getPhone());
+        Address billingAddress = shopperDetails.getBillingAddress();
+        String address1 = billingAddress.getLine1();
+        String address2 = billingAddress.getLine2();
+        String city = billingAddress.getCity();
+        String state = billingAddress.getState();
+        String postCode = billingAddress.getPostCode();
+        String phone = billingAddress.getPhone();
+        String countryCode = billingAddress.getCountryCode();
 
-        return shopper;
-    }
-
-    private boolean areCardDetailsValid(Card cardDetails) {
-        String cardNumber = cardDetails.getCardNumber();
-        int expiryMonth = cardDetails.getExpiryMonth();
-        int expiryYear = cardDetails.getExpiryYear();
-        String cardBrand = cardDetails.getBrand();
-
-        if ("VISA".equals(cardBrand)) {
-            if (CardValidator.isValidCvv())
+        if (isShopperDetailsValid(firstName, lastName, postCode, phone, countryCode)) {
+            return new Shopper.ShopperBuilder(firstName, lastName, address1, postCode, countryCode)
+                    .withAddress2(address2)
+                    .withCity(city)
+                    .withState(state)
+                    .withPhone(phone)
+                    .withEmail(email)
+                    .build();
         }
 
+        return null;
+    }
+
+    private boolean isCardDetailsValid(String cardNumber, int expiryMonth, int expiryYear) {
+        //todo will need to include cvv validation but in order to do so
+        //todo will need to incorporate multiple card types (Visa, Mastercard, etc)
+//      String cardBrand = card.getBrand();
+//        if ("VISA".equals(cardBrand)) {
+//            if (CardValidator.isValidCvv())
+//        }
+
         if (CardValidator.isValidCardNumber(cardNumber) &&
-            CardValidator.isValidExpiryDate(expiryMonth, expiryYear) &&
-            CardValidator.isValidCvv(cardDetails.getBrand())) {
+            CardValidator.isValidExpiryDate(expiryMonth, expiryYear)) {
                 return true;
+        }
+
+        return false;
+    }
+
+    private boolean isShopperDetailsValid(String firstName, String lastName, String postCode, String phone, String countryCode) {
+        if (ShopperValidator.isValidFirstName(firstName) &&
+                ShopperValidator.isValidLastName(lastName) &&
+                ShopperValidator.isValidPostcode(postCode) &&
+                ShopperValidator.isValidPhone(phone) &&
+                ShopperValidator.isValidCountryCode(countryCode)) {
+            return true;
         }
 
         return false;
