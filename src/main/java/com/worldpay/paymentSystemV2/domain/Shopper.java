@@ -130,7 +130,9 @@ public class Shopper {
 
         public Shopper build() throws IllegalStateException {
             if (ShopperValidator.isValidFirstName(firstName) &&
-                    ShopperValidator.isValidLastName(lastName)) {
+                    ShopperValidator.isValidLastName(lastName) &&
+                    ShopperValidator.isValidPostcode(postCode) &&
+                    ShopperValidator.isValidCountryCode(countryCode)) {
                 return new Shopper(this);
             } else {
                 throw new IllegalStateException("Data passed from merchant is invalid");

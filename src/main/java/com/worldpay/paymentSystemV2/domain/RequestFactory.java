@@ -75,7 +75,9 @@ public class RequestFactory {
         String phone = billingAddress.getPhone();
         String countryCode = billingAddress.getCountryCode();
 
-        if (isShopperDetailsValid(firstName, lastName, postCode, phone, countryCode)) {
+        Shopper.ShopperBuilder shopperBuilder = new Shopper.ShopperBuilder(firstName, lastName, address1, postCode, countryCode);
+
+        try {
             return new Shopper.ShopperBuilder(firstName, lastName, address1, postCode, countryCode)
                     .withAddress2(address2)
                     .withCity(city)
@@ -83,9 +85,9 @@ public class RequestFactory {
                     .withPhone(phone)
                     .withEmail(email)
                     .build();
+        } catch (IllegalStateException e) {
+            return null;
         }
-
-        return null;
     }
 
     private boolean isCardDetailsValid(String cardNumber, int expiryMonth, int expiryYear) {
