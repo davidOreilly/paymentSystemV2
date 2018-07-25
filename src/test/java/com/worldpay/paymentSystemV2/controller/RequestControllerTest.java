@@ -48,12 +48,12 @@ public class RequestControllerTest {
         verify(requestFactory).createPayment(paymentServiceRequest);
     }
 
-    @Test
-    public void refundOperationCallsRequestFactory() throws Exception {
-        when(paymentServiceRequest.getOperation()).thenReturn("REFUND");
-
-        requestController.submitPaymentServiceRequest(paymentServiceRequest);
-
-        verify(requestFactory).createRefund();
-    }
+//    @Test
+//    public void refundOperationCallsRequestFactory() throws Exception {
+//        when(paymentServiceRequest.getOperation()).thenReturn("REFUND");
+//
+//        requestController.submitPaymentServiceRequest(paymentServiceRequest);
+//
+//        verify(requestFactory).createRefund();
+//    }
 }

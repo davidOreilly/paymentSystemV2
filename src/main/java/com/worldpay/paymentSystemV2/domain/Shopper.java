@@ -74,7 +74,6 @@ public class Shopper {
         return phone;
     }
 
-    //todo include in RequestFactoryTest
     public String getEmail() {
         return email;
     }

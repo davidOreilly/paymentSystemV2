@@ -44,7 +44,7 @@ public class RequestController {
                 Payment payment = requestFactory.createPayment(paymentServiceRequest);
                 paymentDao.savePayment(payment);
             } else if (REFUND.getOperationName().equalsIgnoreCase(paymentServiceRequest.getOperation())) {
-                requestFactory.createRefund();
+                //requestFactory.createRefund();
             } else {
                 //todo probably want to throw some form of exception here as we don't recognise the operation passed to us
                 return null;

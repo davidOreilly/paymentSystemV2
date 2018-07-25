@@ -1,10 +1,6 @@
 package com.worldpay.paymentSystemV2.service;
 
-import com.worldpay.paymentSystemV2.domain.Card;
-import com.worldpay.paymentSystemV2.domain.Merchant;
-import com.worldpay.paymentSystemV2.domain.Payment;
-import com.worldpay.paymentSystemV2.domain.RequestFactory;
-import com.worldpay.paymentSystemV2.domain.Shopper;
+import com.worldpay.paymentSystemV2.domain.*;
 import com.worldpay.paymentSystemV2.model.Address;
 import com.worldpay.paymentSystemV2.model.CardDetails;
 import com.worldpay.paymentSystemV2.model.MerchantDetails;
@@ -23,7 +19,7 @@ public class RequestFactoryTest {
     private static final String ADDRESS_LINE_1 = "1 Smith Lane";
     private static final String ADDRESS_LINE_2 = "Milton";
     private static final String CARD_NUMBER = "4444333322221111";
-    private static final String COUNTY = "Cambridgeshire";
+    private static final String STATE = "Cambridgeshire";
     private static final String FIRST_NAME = "Jim";
     private static final String LAST_NAME = "Smith";
     private static final String CARDHOLDER_NAME = FIRST_NAME + " " + LAST_NAME;
@@ -33,9 +29,10 @@ public class RequestFactoryTest {
     private static final int EXPIRY_YEAR = 2020;
     private static final String MERCHANT_CODE = "MYMERCHANT01";
     private static final String PHONE_NUMBER = "01233 568745";
+    private static final String EMAIL = "Jsmith@mymail.com";
     private static final String POSTCODE = "CB4 0WE";
     private static final String TRANSACTION_CODE = "123456ABC";
-    private static final String TOWN = "Cambridge";
+    private static final String CITY = "Cambridge";
     private static final int AMOUNT = 100;
     private static final String CURRENCY_CODE = "GBP";
 
@@ -74,15 +71,15 @@ public class RequestFactoryTest {
         when(address.getLastName()).thenReturn(LAST_NAME);
         when(address.getLine1()).thenReturn(ADDRESS_LINE_1);
         when(address.getLine2()).thenReturn(ADDRESS_LINE_2);
-        when(address.getCity()).thenReturn(TOWN);
-        when(address.getState()).thenReturn(COUNTY);
+        when(address.getCity()).thenReturn(CITY);
+        when(address.getState()).thenReturn(STATE);
         when(address.getPostCode()).thenReturn(POSTCODE);
         when(address.getPhone()).thenReturn(PHONE_NUMBER);
         when(address.getCountryCode()).thenReturn(COUNTRY_CODE);
 
         when(shopperDetails.getFirstName()).thenReturn(FIRST_NAME);
         when(shopperDetails.getLastName()).thenReturn(LAST_NAME);
-        when(shopperDetails.getEmail()).thenReturn("jimsmith@mymail.com");
+        when(shopperDetails.getEmail()).thenReturn(EMAIL);
     }
 
     @Test
@@ -122,11 +119,12 @@ public class RequestFactoryTest {
         assertEquals(LAST_NAME, shopper.getLastName());
         assertEquals(ADDRESS_LINE_1, shopper.getAddress1());
         assertEquals(ADDRESS_LINE_2, shopper.getAddress2());
-        assertEquals(TOWN, shopper.getCity());
-        assertEquals(COUNTY, shopper.getState());
+        assertEquals(CITY, shopper.getCity());
+        assertEquals(STATE, shopper.getState());
         assertEquals(POSTCODE, shopper.getPostCode());
         assertEquals(COUNTRY_CODE, shopper.getCountryCode());
         assertEquals(PHONE_NUMBER, shopper.getPhone());
+        assertEquals(EMAIL, shopper.getEmail());
     }
 
 }

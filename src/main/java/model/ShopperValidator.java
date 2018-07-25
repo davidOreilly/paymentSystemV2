@@ -43,6 +43,32 @@ public class ShopperValidator {
     }
 
     /**
+     * Check if supplied city is valid
+     * @param city
+     * @return true if valid. Otherwise false
+     */
+    public static boolean isValidCity(String city) {
+        if(StringUtils.isAlpha(city)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if supplied state is valid
+     * @param state
+     * @return true if valid. Otherwise false
+     */
+    public static boolean isValidState(String state) {
+        if(StringUtils.isAlpha(state)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Check if supplied postcode is valid
      * @param postcode
      * @return true if valid. Otherwise false

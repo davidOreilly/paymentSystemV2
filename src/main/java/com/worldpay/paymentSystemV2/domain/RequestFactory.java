@@ -5,8 +5,6 @@ import model.CardValidator;
 import model.ShopperValidator;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 /**
  * Class to create Payment and Refund requests using data submitted by Merchant
  */
@@ -19,7 +17,7 @@ public class RequestFactory {
         MerchantDetails merchantDetails = paymentServiceRequest.getMerchantDetails();
         ShopperDetails shopperDetails = paymentServiceRequest.getShopperDetails();
 
-        Card card = createCard(cardDetails);
+        Visa card = createCard(cardDetails);
         Merchant merchant = createMerchant(merchantDetails);
         Shopper shopper = createShopper(shopperDetails);
 
@@ -27,30 +25,29 @@ public class RequestFactory {
                 paymentServiceRequest.getCurrencyCode(), card, merchant, shopper);
     }
 
-    public String createRefund() {
-        return null;
-    }
-
-    private Card createCard(CardDetails cardDetails) {
+    private Visa createCard(CardDetails cardDetails) {
+        String cardholderName = cardDetails.getCardholderName();
         String cardNumber = cardDetails.getCardNumber();
         int expiryMonth = cardDetails.getExpiryMonth();
         int expiryYear = cardDetails.getExpiryYear();
         String cvv = cardDetails.getCvv();
-        String cardholderName = cardDetails.getCardholderName();
 
-        if (isCardDetailsValid(cardNumber, expiryMonth, expiryYear)) {
-            Visa visaCard = new Visa();
-
-            visaCard.setCardNumber(cardNumber);
-            visaCard.setExpiryMonth(expiryMonth);
-            visaCard.setExpiryYear(expiryYear);
-            visaCard.setCvv(cvv);
-            visaCard.setCardholderName(cardholderName);
-
-            return visaCard;
+        if (!CardValidator.isValidCardNumber(cardNumber) ||
+               ! CardValidator.isValidExpiryDate(expiryMonth, expiryYear)) {
+            throw new IllegalArgumentException("Invalid card details");
         }
 
-        return null;
+        if (cvv != null && !CardValidator.isValidCvv(cvv)) {
+            throw new IllegalArgumentException("Invalid cvv");
+        }
+
+        Visa.VisaBuilder visaBuilder = new Visa.VisaBuilder(cardholderName, cardNumber, expiryMonth, expiryYear);
+
+        if (cvv != null) {
+            visaBuilder.withCvv(cvv);
+        }
+
+        return visaBuilder.build();
     }
 
     private Merchant createMerchant(MerchantDetails merchantDetails) {
@@ -75,47 +72,44 @@ public class RequestFactory {
         String phone = billingAddress.getPhone();
         String countryCode = billingAddress.getCountryCode();
 
+        if (!ShopperValidator.isValidFirstName(firstName) ||
+                !ShopperValidator.isValidLastName(lastName) ||
+                !ShopperValidator.isValidPostcode(postCode) ||
+                !ShopperValidator.isValidCountryCode(countryCode)) {
+            throw new IllegalArgumentException("Invalid shopper details");
+        }
+
+        //Create the Shopper with the mandatory parameters
         Shopper.ShopperBuilder shopperBuilder = new Shopper.ShopperBuilder(firstName, lastName, address1, postCode, countryCode);
 
-        try {
-            return new Shopper.ShopperBuilder(firstName, lastName, address1, postCode, countryCode)
-                    .withAddress2(address2)
-                    .withCity(city)
-                    .withState(state)
-                    .withPhone(phone)
-                    .withEmail(email)
-                    .build();
-        } catch (IllegalStateException e) {
-            return null;
-        }
-    }
-
-    private boolean isCardDetailsValid(String cardNumber, int expiryMonth, int expiryYear) {
-        //todo will need to include cvv validation but in order to do so
-        //todo will need to incorporate multiple card types (Visa, Mastercard, etc)
-//      String cardBrand = card.getBrand();
-//        if ("VISA".equals(cardBrand)) {
-//            if (CardValidator.isValidCvv())
-//        }
-
-        if (CardValidator.isValidCardNumber(cardNumber) &&
-            CardValidator.isValidExpiryDate(expiryMonth, expiryYear)) {
-                return true;
+        //Check for existence of optional parameters and set on Shopper object
+        if (address2 != null) {
+            shopperBuilder.withAddress2(address2);
         }
 
-        return false;
-    }
-
-    private boolean isShopperDetailsValid(String firstName, String lastName, String postCode, String phone, String countryCode) {
-        if (ShopperValidator.isValidFirstName(firstName) &&
-                ShopperValidator.isValidLastName(lastName) &&
-                ShopperValidator.isValidPostcode(postCode) &&
-                ShopperValidator.isValidPhone(phone) &&
-                ShopperValidator.isValidCountryCode(countryCode)) {
-            return true;
+        if (city != null && ShopperValidator.isValidCity(city)) {
+            shopperBuilder.withCity(city);
+        } else {
+            throw new IllegalArgumentException("invalid city");
         }
 
-        return false;
+        if (state != null && ShopperValidator.isValidState(state)) {
+            shopperBuilder.withState(state);
+        } else {
+            throw new IllegalArgumentException("invalid state");
+        }
+
+        if (phone != null && ShopperValidator.isValidPhone(phone)) {
+            shopperBuilder.withPhone(phone);
+        } else {
+            throw new IllegalArgumentException("invalid phone");
+        }
+
+        if (email != null) {
+            shopperBuilder.withEmail(email);
+        }
+
+        return shopperBuilder.build();
     }
 
 }
