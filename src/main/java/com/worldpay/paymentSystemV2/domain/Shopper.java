@@ -1,7 +1,5 @@
 package com.worldpay.paymentSystemV2.domain;
 
-import model.ShopperValidator;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +28,12 @@ public class Shopper {
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
         this.address1 = builder.address1;
+        this.address2 = builder.address2;
+        this.city = builder.city;
+        this.state = builder.state;
         this.postCode = builder.postCode;
+        this.phone = builder.phone;
+        this.email = builder.email;
         this.countryCode = builder.countryCode;
     }
 
@@ -128,15 +131,7 @@ public class Shopper {
         }
 
         public Shopper build() throws IllegalStateException {
-            if (ShopperValidator.isValidFirstName(firstName) &&
-                    ShopperValidator.isValidLastName(lastName) &&
-                    ShopperValidator.isValidPostcode(postCode) &&
-                    ShopperValidator.isValidCountryCode(countryCode)) {
                 return new Shopper(this);
-            } else {
-                throw new IllegalStateException("Data passed from merchant is invalid");
-            }
         }
-
     }
 }

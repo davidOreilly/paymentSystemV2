@@ -28,7 +28,7 @@ public class RequestFactoryTest {
     private static final int EXPIRY_MONTH = 10;
     private static final int EXPIRY_YEAR = 2020;
     private static final String MERCHANT_CODE = "MYMERCHANT01";
-    private static final String PHONE_NUMBER = "01233 568745";
+    private static final String PHONE_NUMBER = "01233568745";
     private static final String EMAIL = "Jsmith@mymail.com";
     private static final String POSTCODE = "CB4 0WE";
     private static final String TRANSACTION_CODE = "123456ABC";

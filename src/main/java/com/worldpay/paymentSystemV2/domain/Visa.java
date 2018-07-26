@@ -22,10 +22,11 @@ public class Visa implements Card {
     private String cardholderName;
 
     private Visa(VisaBuilder builder) {
-        this.cardNumber = cardNumber;
-        this.cardholderName = cardholderName;
-        this.expiryMonth = expiryMonth;
-        this.expiryYear = expiryYear;
+        this.cardNumber = builder.cardNumber;
+        this.cardholderName = builder.cardholderName;
+        this.expiryMonth = builder.expiryMonth;
+        this.expiryYear = builder.expiryYear;
+        this.cvv = builder.cvv;
     }
 
     public int getId() {
@@ -78,7 +79,6 @@ public class Visa implements Card {
         public Visa build() {
             return new Visa(this);
         }
-
     }
 
 }

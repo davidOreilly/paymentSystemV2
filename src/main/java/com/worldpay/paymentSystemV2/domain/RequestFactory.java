@@ -17,7 +17,7 @@ public class RequestFactory {
         MerchantDetails merchantDetails = paymentServiceRequest.getMerchantDetails();
         ShopperDetails shopperDetails = paymentServiceRequest.getShopperDetails();
 
-        Visa card = createCard(cardDetails);
+        Card card = createCard(cardDetails);
         Merchant merchant = createMerchant(merchantDetails);
         Shopper shopper = createShopper(shopperDetails);
 
@@ -25,7 +25,7 @@ public class RequestFactory {
                 paymentServiceRequest.getCurrencyCode(), card, merchant, shopper);
     }
 
-    private Visa createCard(CardDetails cardDetails) {
+    private Card createCard(CardDetails cardDetails) {
         String cardholderName = cardDetails.getCardholderName();
         String cardNumber = cardDetails.getCardNumber();
         int expiryMonth = cardDetails.getExpiryMonth();
@@ -41,6 +41,7 @@ public class RequestFactory {
             throw new IllegalArgumentException("Invalid cvv");
         }
 
+        //todo: Will need to work out which type of card we need to create here (using card bin?) rather than creating Visa every time
         Visa.VisaBuilder visaBuilder = new Visa.VisaBuilder(cardholderName, cardNumber, expiryMonth, expiryYear);
 
         if (cvv != null) {
@@ -69,6 +70,7 @@ public class RequestFactory {
         String city = billingAddress.getCity();
         String state = billingAddress.getState();
         String postCode = billingAddress.getPostCode();
+        //todo: Currently we do not accept spaces in phone number. Need a way of trimming these before attempting to validate
         String phone = billingAddress.getPhone();
         String countryCode = billingAddress.getCountryCode();
 
