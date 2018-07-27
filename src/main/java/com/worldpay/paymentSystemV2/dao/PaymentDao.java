@@ -17,7 +17,7 @@ public class PaymentDao {
     /**
      * Save the payment to the database
      */
-    public void createPayment(Payment payment) {
+    public void savePayment(Payment payment) {
         entityManager.persist(payment);
         entityManager.persist(payment.getCard());
         entityManager.persist(payment.getMerchant());

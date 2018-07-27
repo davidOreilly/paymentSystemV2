@@ -1,7 +1,5 @@
 package com.worldpay.paymentSystemV2.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,12 +16,26 @@ public class Shopper {
     private String firstName;
     private String lastName;
     private String address1;
-    private String address2;
-    private String town;
-    private String county;
-    private String postcode;
-    private String phone;
-    private int countryCode;
+    private String address2; //optional
+    private String city; //optional
+    private String state; //optional
+    private String postCode;
+    private String phone; //optional
+    private String email; //optional
+    private String countryCode;
+
+    private Shopper(ShopperBuilder builder) {
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.address1 = builder.address1;
+        this.address2 = builder.address2;
+        this.city = builder.city;
+        this.state = builder.state;
+        this.postCode = builder.postCode;
+        this.phone = builder.phone;
+        this.email = builder.email;
+        this.countryCode = builder.countryCode;
+    }
 
     public int getId() {
         return id;
@@ -37,72 +49,89 @@ public class Shopper {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getAddress1() {
         return address1;
     }
 
-    public void setAddress1(String address1) {
-        this.address1 = address1;
-    }
-
     public String getAddress2() {
         return address2;
     }
 
-    public void setAddress2(String address2) {
-        this.address2 = address2;
+    public String getCity() {
+        return city;
     }
 
-    public String getTown() {
-        return town;
+    public String getState() {
+        return state;
     }
 
-    public void setTown(String town) {
-        this.town = town;
-    }
-
-    public String getCounty() {
-        return county;
-    }
-
-    public void setCounty(String county) {
-        this.county = county;
-    }
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
+    public String getPostCode() {
+        return postCode;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public String getEmail() {
+        return email;
     }
 
-    public int getCountryCode() {
+    public String getCountryCode() {
         return countryCode;
     }
 
-    public void setCountryCode(int countryCode) {
-        this.countryCode = countryCode;
-    }
+    public static class ShopperBuilder {
+        private final String firstName;
+        private final String lastName;
+        private final String address1;
+        private final String postCode;
+        private final String countryCode;
+        private String address2;
+        private String city;
+        private String state;
+        private String phone;
+        private String email;
 
+        public ShopperBuilder(String firstName, String lastName, String address1, String postCode, String countryCode) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.address1 = address1;
+            this.postCode = postCode;
+            this.countryCode = countryCode;
+        }
+
+        public ShopperBuilder withAddress2(String address2) {
+            this.address2 = address2;
+            return this;
+        }
+
+        public ShopperBuilder withCity(String city) {
+            this.city = city;
+            return this;
+        }
+
+        public ShopperBuilder withState(String state) {
+            this.state = state;
+            return this;
+        }
+
+        public ShopperBuilder withPhone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public ShopperBuilder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Shopper build() throws IllegalStateException {
+                return new Shopper(this);
+        }
+    }
 }

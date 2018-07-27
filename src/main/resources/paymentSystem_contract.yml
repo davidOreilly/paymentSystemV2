@@ -78,7 +78,7 @@ definitions:
           type: integer
         cvv:
           description: 'CVV on credit/debit card'
-          type: integer
+          type: string
         cardholderName:
           description: 'Name printed on credit/debit card'
           type: string
@@ -91,7 +91,7 @@ definitions:
           type: string
   ShopperDetails:
       type: object
-      required: [firstName, lastName, billingAddress, email]
+      required: [firstName, lastName, billingAddress]
       properties:
         firstName:
           description: 'Shopper first name'
@@ -107,6 +107,7 @@ definitions:
           type: string
   Address:
     type: object
+    required: [line1, countryCode, firstName, lastName, postCode]
     properties:
       line1:
         description: "Address line 1"
@@ -119,7 +120,7 @@ definitions:
         type: string
       countryCode:
         description: "2 digit ISO country code"
-        type: integer
+        type: string
       firstName:
         description: "Address first name"
         type: string

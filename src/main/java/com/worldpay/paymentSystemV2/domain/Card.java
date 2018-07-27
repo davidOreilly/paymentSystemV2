@@ -9,4 +9,6 @@ public interface Card {
     public int getExpiryYear();
 
     public String getCardholderName();
+
+    public String getBrand();
 }

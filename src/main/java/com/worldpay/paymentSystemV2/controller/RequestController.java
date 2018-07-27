@@ -1,9 +1,9 @@
-package com.worldpay.paymentSystemV2.controllers;
+package com.worldpay.paymentSystemV2.controller;
 
 import com.worldpay.paymentSystemV2.dao.PaymentDao;
 import com.worldpay.paymentSystemV2.domain.Payment;
 import com.worldpay.paymentSystemV2.model.PaymentServiceRequest;
-import com.worldpay.paymentSystemV2.service.RequestFactory;
+import com.worldpay.paymentSystemV2.domain.RequestFactory;
 import io.swagger.annotations.ApiParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 
+import static model.OperationEnum.PAYMENT;
+import static model.OperationEnum.REFUND;
+
 /**
  * Controller is responsible for intercepting request from merchant,
  * converting request data to internal data,
@@ -21,9 +24,6 @@ import javax.inject.Inject;
  */
 @Controller
 public class RequestController {
-
-    private static final String PAYMENT_REQUEST = "PAYMENT";
-    private static final String REFUND_REQUEST = "REFUND";
 
     private PaymentDao paymentDao;
     private RequestFactory requestFactory;
@@ -40,11 +40,11 @@ public class RequestController {
     @ResponseBody
     public String submitPaymentServiceRequest(@ApiParam(value = "", required = true) @RequestBody PaymentServiceRequest paymentServiceRequest) {
         if (paymentServiceRequest != null) {
-            if (PAYMENT_REQUEST.equals(paymentServiceRequest.getOperation())) {
-                Payment payment = requestFactory.createPaymentRequest(paymentServiceRequest);
-                paymentDao.createPayment(payment);
-            } else if (REFUND_REQUEST.equals(paymentServiceRequest.getOperation())) {
-                requestFactory.createRefundRequest();
+            if (PAYMENT.getOperationName().equalsIgnoreCase(paymentServiceRequest.getOperation())) {
+                Payment payment = requestFactory.createPayment(paymentServiceRequest);
+                paymentDao.savePayment(payment);
+            } else if (REFUND.getOperationName().equalsIgnoreCase(paymentServiceRequest.getOperation())) {
+                //requestFactory.createRefund();
             } else {
                 //todo probably want to throw some form of exception here as we don't recognise the operation passed to us
                 return null;

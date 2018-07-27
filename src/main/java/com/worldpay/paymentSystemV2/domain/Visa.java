@@ -10,64 +10,75 @@ import javax.persistence.Table;
 @Table(name = "card")
 public class Visa implements Card {
 
+    private static final String BRAND = "VISA";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String cardNumber;
     private int expiryMonth;
     private int expiryYear;
-    private int cvv;
+    private String cvv;
     private String cardholderName;
+
+    private Visa(VisaBuilder builder) {
+        this.cardNumber = builder.cardNumber;
+        this.cardholderName = builder.cardholderName;
+        this.expiryMonth = builder.expiryMonth;
+        this.expiryYear = builder.expiryYear;
+        this.cvv = builder.cvv;
+    }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
     public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    @Override
     public int getExpiryMonth() {
         return expiryMonth;
     }
 
-    public void setExpiryMonth(int expiryMonth) {
-        this.expiryMonth = expiryMonth;
-    }
-
-    @Override
     public int getExpiryYear() {
         return expiryYear;
     }
 
-    public void setExpiryYear(int expiryYear) {
-        this.expiryYear = expiryYear;
-    }
-
-    public int getCvv() {
+    public String getCvv() {
         return cvv;
     }
 
-    public void setCvv(int cvv) {
-        this.cvv = cvv;
-    }
-
-    @Override
     public String getCardholderName() {
         return cardholderName;
     }
 
-    public void setCardholderName(String cardholderName) {
-        this.cardholderName = cardholderName;
+    public String getBrand() {
+        return BRAND;
     }
+
+    public static class VisaBuilder {
+        private final String cardholderName;
+        private final String cardNumber;
+        private final int expiryMonth;
+        private final int expiryYear;
+        private String cvv;
+
+        public VisaBuilder(String cardholderName, String cardNumber, int expiryMonth, int expiryYear) {
+            this.cardholderName = cardholderName;
+            this.cardNumber = cardNumber;
+            this.expiryMonth = expiryMonth;
+            this.expiryYear = expiryYear;
+        }
+
+        public VisaBuilder withCvv(String cvv) {
+            this.cvv = cvv;
+            return this;
+        }
+
+        public Visa build() {
+            return new Visa(this);
+        }
+    }
+
 }
